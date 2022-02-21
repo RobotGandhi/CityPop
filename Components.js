@@ -6,7 +6,7 @@ const HomeScreen = ({navigation}) => {
       <Text>Hello, World!</Text>
       <Button
         title="City Search"
-        onPress={() => navigation.navigate("City Search")}
+        onPress={() => navigation.navigate("City Search")} // Adds another screen to the stack.
       />
       <Button 
         title="Country Search"

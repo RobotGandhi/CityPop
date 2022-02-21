@@ -2,12 +2,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, CitySearchScreen, CountrySearchScreen, CityScreen, CountryScreen } from './Components';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); // Creates a navigator that allows for movement between multiple pages.
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator> {/* Every screen has a component attached to it. These components are built in Components.js. */}
         <Stack.Screen
           name="Home"
           component={HomeScreen}
