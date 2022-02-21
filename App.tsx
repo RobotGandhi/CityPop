@@ -2,7 +2,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, CitySearchScreen, CountrySearchScreen, CityScreen, CountryScreen } from './Components';
 
-const Stack = createNativeStackNavigator(); // Creates a navigator that allows for movement between multiple pages.
+export type StackParams = { 
+  Home: undefined; 
+  CitySearch: undefined; 
+  CountrySearch: undefined; 
+  CityPage: undefined;  // TODO: Add string here for the result of API call.
+  CountryPage: undefined;
+};
+
+const Stack = createNativeStackNavigator<StackParams>(); // Creates a navigator that allows for movement between multiple pages.
 
 export default function App() {
   return (
@@ -13,19 +21,19 @@ export default function App() {
           component={HomeScreen}
         />
         <Stack.Screen
-          name="City Search"
+          name="CitySearch"
           component={CitySearchScreen}
         />
         <Stack.Screen
-          name="Country Search"
+          name="CountrySearch"
           component={CountrySearchScreen}
         />
         <Stack.Screen
-          name="City Page"
+          name="CityPage"
           component={CityScreen}
         />
         <Stack.Screen
-          name="Country Page"
+          name="CountryPage"
           component={CountryScreen}
         />
       </Stack.Navigator>
