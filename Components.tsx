@@ -48,7 +48,12 @@ const CountrySearchScreen: React.FC<{}> = () => {
       />
       <Button
         title="Search"
-        onPress={() => navigation.navigate("CountryPage")}
+        onPress={() => {
+          fetch('http://api.geonames.org/searchJSON?q=london&maxRows=10&username=weknowit')
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+          navigation.navigate("CountryPage");
+        }}
       />
     </View>
   );
