@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Button, Text, View } from 'react-native';
+import React from 'react';
+import { Button, Text, TextInput, View } from 'react-native';
 import { StackParams } from './App';
 import { styles } from './Style';
 
-const HomeScreen = () => {
+
+const HomeScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
     <View style={styles.container}>
@@ -21,7 +23,7 @@ const HomeScreen = () => {
   );
 };
   
-const CitySearchScreen = () => {
+const CitySearchScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
     <View style={styles.container}>
@@ -33,12 +35,17 @@ const CitySearchScreen = () => {
     </View>
   );
 };
-  
-const CountrySearchScreen = () => {
+
+const CountrySearchScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+  const [searchTerm, setSearchTerm] = React.useState("");
   return (
     <View style={styles.container}>
       <Text>Välkommen till sökskärmen för länder</Text>
+      <TextInput
+        value={searchTerm}
+        onChangeText={(text) => setSearchTerm(text)}
+      />
       <Button
         title="Search"
         onPress={() => navigation.navigate("CountryPage")}
@@ -47,7 +54,7 @@ const CountrySearchScreen = () => {
   );
 };
   
-const CityScreen = () => {
+const CityScreen: React.FC<{}> = () => {
   return (
     <View style={styles.container}>
       <Text>Välkommen till stadsskärmen</Text>
@@ -59,7 +66,7 @@ const CityScreen = () => {
   );
 };
   
-const CountryScreen = () => {
+const CountryScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
     <View style={styles.container}>

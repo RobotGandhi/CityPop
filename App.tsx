@@ -12,10 +12,10 @@ export type StackParams = {
 
 const Stack = createNativeStackNavigator<StackParams>(); // Creates a navigator that allows for movement between multiple pages.
 
-export default function App() {
+export default function App() { // Every screen has a component attached to it. These components are built in Components.js.
   return (
     <NavigationContainer>
-      <Stack.Navigator> {/* Every screen has a component attached to it. These components are built in Components.js. */}
+      <Stack.Navigator>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
