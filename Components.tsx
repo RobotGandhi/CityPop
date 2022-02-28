@@ -41,7 +41,9 @@ const CitySearchScreen: React.FC<{}> = () => {
 const CountrySearchScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [error, setError] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  if(!isLoading && error == "") { return (
     <View style={styles.container}>
       <Text>Välkommen till sökskärmen för länder</Text>
       <TextInput style={styles.input}
@@ -62,16 +64,27 @@ const CountrySearchScreen: React.FC<{}> = () => {
                   navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});
                 });
               }
+              else setError("Could not find a country with that name! Please try again.")}) // TODO: turn the resulting JSON to props for the country page.
             .finally(() => setIsLoading(false));
           setIsLoading(true);
         }}
       />
     </View>
   );}
+  else if (error != "") { return (
+    <View style={styles.container}> 
+      <Text>{error}</Text>
+      <Button
+        title="Återvänd"
+        onPress={() => setError("")}
+      />
+    </View>
+  );}
   else return ( // If the API results are pending, show a loading screen.
     <View style={styles.container}> 
       <Text>Laddar resultat...</Text>
-    </View>);
+    </View>
+  );
 };
   
 const CityScreen: React.FC<CityProps> = (props) => {
