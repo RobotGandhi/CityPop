@@ -8,6 +8,6 @@ export const styles = StyleSheet.create({ // Ordinary styling.
     },
     input: {
       borderWidth: 1,
-      width: 50,
+      width: 200,
     },
 });
