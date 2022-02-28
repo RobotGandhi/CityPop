@@ -6,4 +6,8 @@ export const styles = StyleSheet.create({ // Ordinary styling.
       alignItems: 'center',
       justifyContent: 'space-around',
     },
+    input: {
+      borderWidth: 1,
+      width: 50,
+    },
 });
