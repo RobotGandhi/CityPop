@@ -6,6 +6,7 @@ import { StackParams } from './App';
 import { styles } from './Style';
 
 type CityProps = NativeStackScreenProps<StackParams, "CityPage">
+type CountryProps = NativeStackScreenProps<StackParams, "CountryPage">
 
 const HomeScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
@@ -41,7 +42,6 @@ const CountrySearchScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  if(!isLoading) { return (
     <View style={styles.container}>
       <Text>Välkommen till sökskärmen för länder</Text>
       <TextInput style={styles.input}
@@ -51,9 +51,17 @@ const CountrySearchScreen: React.FC<{}> = () => {
       <Button
         title="Search"
         onPress={() => {
-          fetch('http://api.geonames.org/searchJSON?q=' + searchTerm + '&maxRows=10&username=weknowit') // Make an API call for the search term.
+          fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&username=weknowit') // Make an API call for the search term.
             .then((response) => response.json())
-            .then((json) => navigation.navigate("CountryPage")) // TODO: turn the resulting JSON to props for the country page.
+            .then((json) => {console.log(json);
+              if (json.geonames.length != 0) {
+                fetch('http://api.geonames.org/searchJSON?q=' + json.geonames[0].countryName + '&country=' + json.geonames[0].countryCode + '&cities=cities15000&username=weknowit')
+                .then((response) => response.json()) // Searches for large cities in the searched country.
+                .then((json) => {json.geonames.length > 5 ? 
+                  navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames.slice(0, 5)}) : 
+                  navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});
+                });
+              }
             .finally(() => setIsLoading(false));
           setIsLoading(true);
         }}
@@ -78,11 +86,12 @@ const CityScreen: React.FC<CityProps> = (props) => {
   );
 };
   
-const CountryScreen: React.FC<{}> = () => { // TODO: Procedurally make buttons from props containing search results.
+const CountryScreen: React.FC<CountryProps> = (props) => { // TODO: Procedurally make buttons from props containing search results.
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+  console.log(props.route.params.cities);
   return (
     <View style={styles.container}>
-      <Text>Välkommen till landsskärmen</Text>
+      <Text>Välkommen till landsskärmen för {props.route.params.name}</Text>
       <Button
         title="Stad 1"
         onPress={() => navigation.navigate("CityPage", {name: "Stad 1", pop:123456})}
