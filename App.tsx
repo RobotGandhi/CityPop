@@ -2,11 +2,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, CitySearchScreen, CountrySearchScreen, CityScreen, CountryScreen } from './Components';
 
-export type StackParams = { 
+export type StackParams = {  // Defines which props should be sent to each screen.
   Home: undefined; 
   CitySearch: undefined; 
   CountrySearch: undefined; 
-  CityPage: undefined;  // TODO: Add string here for the result of API call.
+  CityPage: {
+    name: string;
+    pop: number;
+  };
   CountryPage: undefined;
 };
 
