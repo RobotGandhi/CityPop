@@ -15,13 +15,13 @@ const HomeScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
     <View style={styles.container}>
-      <Text>Hello, World!</Text>
+      <Text>CityPop</Text>
       <Button
-        title="City Search"
+        title="Search by City"
         onPress={() => navigation.navigate("CitySearch")} // Adds another screen to the stack.
       />
       <Button 
-        title="Country Search"
+        title="Search by Country"
         onPress={() => navigation.navigate("CountrySearch")}
       />
     </View>
@@ -35,7 +35,7 @@ const CitySearchScreen: React.FC<{}> = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   if(!isLoading && error == "") { return (
     <View style={styles.container}>
-      <Text>Välkommen till sökskärmen för städer</Text>
+      <Text>Search by City</Text>
       <TextInput style={styles.input}
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
@@ -81,7 +81,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   if(!isLoading && error == "") { return (
     <View style={styles.container}>
-      <Text>Välkommen till sökskärmen för länder</Text>
+      <Text>Search by Country</Text>
       <TextInput style={styles.input}
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
@@ -126,10 +126,10 @@ const CountrySearchScreen: React.FC<{}> = () => {
 const CityScreen: React.FC<CityProps> = (props) => {
   return (
     <View style={styles.container}>
-      <Text>Välkommen till stadsskärmen för {props.route.params.name}</Text>
+      <Text>{props.route.params.name}</Text>
       <Button // TODO: Add text and make button return user to home screen.
-        title={props.route.params.pop.toString()} // Quick test of parameter implementation
-        onPress={() => console.log("Tja")}
+        title={"Population: " + props.route.params.pop.toString()} // Quick test of parameter implementation
+        disabled
       />
     </View>
   );
