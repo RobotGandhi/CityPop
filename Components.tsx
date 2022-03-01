@@ -8,9 +8,6 @@ import { styles } from './Style';
 type CityProps = NativeStackScreenProps<StackParams, "CityPage">
 type CountryProps = NativeStackScreenProps<StackParams, "CountryPage">
 
-// TODO: Remove console.log calls.
-// TODO: Make language consistent.
-
 const HomeScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
@@ -48,7 +45,6 @@ const CitySearchScreen: React.FC<{}> = () => {
             .then((response) => response.json())
             .then((json) => {
               if (json.geonames.length != 0) {
-                // TODO: Add city navigation.
                 navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
               }
               else setError("Could not find a city with that name! Please try again.")})
@@ -101,7 +97,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
                   navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});
                 });
               }
-              else setError("Could not find a country with that name! Please try again.")}) // TODO: turn the resulting JSON to props for the country page.
+              else setError("Could not find a country with that name! Please try again.")})
             .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
             .finally(() => setIsLoading(false));
           setIsLoading(true);
@@ -129,7 +125,7 @@ const CityScreen: React.FC<CityProps> = (props) => {
   return (
     <View style={styles.container}>
       <Text>{props.route.params.name}</Text>
-      <Button // TODO: Add text and make button return user to home screen.
+      <Button
         title={"Population: " + props.route.params.pop.toString()} // Quick test of parameter implementation
         disabled
       />
@@ -137,7 +133,7 @@ const CityScreen: React.FC<CityProps> = (props) => {
   );
 };
   
-const CountryScreen: React.FC<CountryProps> = (props) => { // TODO: Procedurally make buttons from props containing search results.
+const CountryScreen: React.FC<CountryProps> = (props) => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
     <View style={styles.container}>
