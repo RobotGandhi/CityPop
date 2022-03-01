@@ -46,7 +46,7 @@ const CitySearchScreen: React.FC<{}> = () => {
           fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
             // TEST: Does this have to be changed to q=searchTerm?
             .then((response) => response.json())
-            .then((json) => {console.log(json);
+            .then((json) => {
               if (json.geonames.length != 0) {
                 // TODO: Add city navigation.
                 navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
@@ -92,7 +92,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
         onPress={() => {
           fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&username=weknowit') // Make an API call for the search term.
             .then((response) => response.json())
-            .then((json) => {console.log(json);
+            .then((json) => {
               if (json.geonames.length != 0) {
                 fetch('http://api.geonames.org/searchJSON?q=' + json.geonames[0].countryName + '&country=' + json.geonames[0].countryCode + '&cities=cities15000&username=weknowit')
                 .then((response) => response.json()) // Searches for large cities in the searched country.
@@ -139,16 +139,15 @@ const CityScreen: React.FC<CityProps> = (props) => {
   
 const CountryScreen: React.FC<CountryProps> = (props) => { // TODO: Procedurally make buttons from props containing search results.
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  console.log(props.route.params.cities);
   return (
     <View style={styles.container}>
       <Text>Välkommen till landsskärmen för {props.route.params.name}</Text>
       {props.route.params.cities.map((item) => {
-        console.log(item);
-        return (<Button
-        title={item.toponymName}
-        onPress={() => navigation.navigate("CityPage", {name: item.toponymName, pop:item.population})}
-      />
+        return (
+          <Button
+            title={item.toponymName}
+            onPress={() => navigation.navigate("CityPage", {name: item.toponymName, pop:item.population})}
+          />
       )})}
     </View>
   );
