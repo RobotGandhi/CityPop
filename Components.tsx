@@ -41,7 +41,6 @@ const CitySearchScreen: React.FC<{}> = () => {
         title="Search"
         onPress={() => {
           fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
-            // TEST: Does this have to be changed to q=searchTerm?
             .then((response) => response.json())
             .then((json) => {
               if (json.geonames.length != 0) {
@@ -55,7 +54,7 @@ const CitySearchScreen: React.FC<{}> = () => {
       />
     </View>
   );}
-  else if (error != "") { return (
+  else if (error != "") { return ( // If there is an error, show it to the user.
     <View style={styles.container}> 
       <Text>{error}</Text>
       <Button
@@ -94,7 +93,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
                 .then((response) => response.json()) // Searches for large cities in the searched country.
                 .then((json) => {json.geonames.length > 5 ? 
                   navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames.slice(0, 5)}) : 
-                  navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});
+                  navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});  // Send a maximum of five cities to the country screen for rendering.
                 });
               }
               else setError("Could not find a country with that name! Please try again.")})
@@ -105,7 +104,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
       />
     </View>
   );}
-  else if (error != "") { return (
+  else if (error != "") { return ( // If there is an error, show it to the user.
     <View style={styles.container}> 
       <Text>{error}</Text>
       <Button
@@ -122,11 +121,11 @@ const CountrySearchScreen: React.FC<{}> = () => {
 };
   
 const CityScreen: React.FC<CityProps> = (props) => {
-  return (
+  return ( // A simple screen showing the city name and population
     <View style={styles.container}>
       <Text>{props.route.params.name}</Text>
       <Button
-        title={"Population: " + props.route.params.pop.toString()} // Quick test of parameter implementation
+        title={"Population: " + props.route.params.pop.toString()}
         disabled
       />
     </View>
@@ -135,10 +134,10 @@ const CityScreen: React.FC<CityProps> = (props) => {
   
 const CountryScreen: React.FC<CountryProps> = (props) => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  return (
+  return ( // A simple screen showing the top city results for a country
     <View style={styles.container}>
       <Text>Välkommen till landsskärmen för {props.route.params.name}</Text>
-      {props.route.params.cities.map((item) => {
+      {props.route.params.cities.map((item) => { // Every result gets its own button, navigating to its respective city
         return (
           <Button
             title={item.toponymName}
