@@ -8,6 +8,9 @@ import { styles } from './Style';
 type CityProps = NativeStackScreenProps<StackParams, "CityPage">
 type CountryProps = NativeStackScreenProps<StackParams, "CountryPage">
 
+// TODO: Remove console.log calls.
+// TODO: Make language consistent.
+
 const HomeScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   return (
@@ -27,13 +30,45 @@ const HomeScreen: React.FC<{}> = () => {
   
 const CitySearchScreen: React.FC<{}> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  return (
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  if(!isLoading && error == "") { return (
     <View style={styles.container}>
       <Text>Välkommen till sökskärmen för städer</Text>
+      <TextInput style={styles.input}
+        value={searchTerm}
+        onChangeText={(text) => setSearchTerm(text)}
+      />
       <Button
         title="Search"
-        onPress={() => navigation.navigate("CityPage", {name: "Stad 1", pop:123456})}
+        onPress={() => {
+          fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
+            // TEST: Does this have to be changed to q=searchTerm?
+            .then((response) => response.json())
+            .then((json) => {console.log(json);
+              if (json.geonames.length != 0) {
+                // TODO: Add city navigation.
+              }
+              else setError("Could not find a city with that name! Please try again.")})
+            .finally(() => setIsLoading(false));
+          setIsLoading(true);
+        }}
       />
+    </View>
+  );}
+  else if (error != "") { return (
+    <View style={styles.container}> 
+      <Text>{error}</Text>
+      <Button
+        title="Återvänd"
+        onPress={() => setError("")}
+      />
+    </View>
+  );}
+  else return ( // If the API results are pending, show a loading screen.
+    <View style={styles.container}> 
+      <Text>Laddar resultat...</Text>
     </View>
   );
 };
