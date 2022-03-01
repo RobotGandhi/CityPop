@@ -49,6 +49,7 @@ const CitySearchScreen: React.FC<{}> = () => {
             .then((json) => {console.log(json);
               if (json.geonames.length != 0) {
                 // TODO: Add city navigation.
+                navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
               }
               else setError("Could not find a city with that name! Please try again.")})
             .finally(() => setIsLoading(false));
