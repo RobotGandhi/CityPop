@@ -105,18 +105,13 @@ const CountryScreen: React.FC<CountryProps> = (props) => { // TODO: Procedurally
   return (
     <View style={styles.container}>
       <Text>Välkommen till landsskärmen för {props.route.params.name}</Text>
-      <Button
-        title="Stad 1"
-        onPress={() => navigation.navigate("CityPage", {name: "Stad 1", pop:123456})}
+      {props.route.params.cities.map((item) => {
+        console.log(item);
+        return (<Button
+        title={item.toponymName}
+        onPress={() => navigation.navigate("CityPage", {name: item.toponymName, pop:item.population})}
       />
-      <Button
-        title="Stad 2"
-        onPress={() => navigation.navigate("CityPage", {name: "Stad 2", pop:12345})}
-      />
-      <Button
-        title="Stad 3"
-        onPress={() => navigation.navigate("CityPage", {name: "Stad 3", pop:1234567})}
-      />
+      )})}
     </View>
   );
 };

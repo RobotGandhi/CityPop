@@ -10,7 +10,13 @@ export type StackParams = {  // Defines which props should be sent to each scree
     name: string;
     pop: number;
   };
-  CountryPage: undefined;
+  CountryPage: {
+    name: string;
+    cities: Array<{
+      toponymName: string;
+      population: number;
+    }>;
+  };
 };
 
 const Stack = createNativeStackNavigator<StackParams>(); // Creates a navigator that allows for movement between multiple pages.
