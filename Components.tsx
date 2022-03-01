@@ -52,6 +52,7 @@ const CitySearchScreen: React.FC<{}> = () => {
                 navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
               }
               else setError("Could not find a city with that name! Please try again.")})
+            .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
             .finally(() => setIsLoading(false));
           setIsLoading(true);
         }}
@@ -101,6 +102,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
                 });
               }
               else setError("Could not find a country with that name! Please try again.")}) // TODO: turn the resulting JSON to props for the country page.
+            .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
             .finally(() => setIsLoading(false));
           setIsLoading(true);
         }}
