@@ -54,16 +54,18 @@ const CitySearchScreen: React.FC<{}> = () => {
           <Button
             title="Search"
             onPress={() => {
-              fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
-                .then((response) => response.json())
-                .then((json) => {
-                  if (json.geonames.length != 0) {
-                    navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
-                  }
-                  else setError("Could not find a city with that name! Please try again.")})
-                .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
-                .finally(() => setIsLoading(false));
-              setIsLoading(true);
+              if (searchTerm != ""){
+                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
+                  .then((response) => response.json())
+                  .then((json) => {
+                    if (json.geonames.length != 0) {
+                      navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
+                    }
+                    else setError("Could not find a city with that name! Please try again.")})
+                  .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
+                  .finally(() => setIsLoading(false));
+                setIsLoading(true);
+              } else setError("You can not search for nothing! Please enter a search term.");
             }}
           />
         </View>
@@ -107,21 +109,23 @@ const CountrySearchScreen: React.FC<{}> = () => {
           <Button
             title="Search"
             onPress={() => {
-              fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&username=weknowit') // Make an API call for the search term.
-                .then((response) => response.json())
-                .then((json) => {
-                  if (json.geonames.length != 0) {
-                    fetch('http://api.geonames.org/searchJSON?q=' + json.geonames[0].countryName + '&country=' + json.geonames[0].countryCode + '&cities=cities15000&username=weknowit')
-                    .then((response) => response.json()) // Searches for large cities in the searched country.
-                    .then((json) => {json.geonames.length > 5 ? 
-                      navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames.slice(0, 5)}) : 
-                      navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});  // Send a maximum of five cities to the country screen for rendering.
-                    });
-                  }
-                  else setError("Could not find a country with that name! Please try again.")})
-                .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
-                .finally(() => setIsLoading(false));
-              setIsLoading(true);
+              if (searchTerm != ""){
+                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&username=weknowit') // Make an API call for the search term.
+                  .then((response) => response.json())
+                  .then((json) => {
+                    if (json.geonames.length != 0) {
+                      fetch('http://api.geonames.org/searchJSON?q=' + json.geonames[0].countryName + '&country=' + json.geonames[0].countryCode + '&cities=cities15000&username=weknowit')
+                      .then((response) => response.json()) // Searches for large cities in the searched country.
+                      .then((json) => {json.geonames.length > 5 ? 
+                        navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames.slice(0, 5)}) : 
+                        navigation.navigate("CountryPage", {name: json.geonames[0].countryName, cities: json.geonames});  // Send a maximum of five cities to the country screen for rendering.
+                      });
+                    }
+                    else setError("Could not find a country with that name! Please try again.")})
+                  .catch((error) => { setError("Something went wrong when sending or receiving your request! Please try again and contact our support if the error persists.") })
+                  .finally(() => setIsLoading(false));
+                setIsLoading(true);
+              } else setError("You can not search for nothing! Please enter a search term.");
             }}
           />
         </View>
