@@ -55,9 +55,9 @@ const CitySearchScreen: React.FC<{}> = () => {
             title="Search"
             onPress={() => {
               if (searchTerm != ""){
-                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&username=weknowit') // Make an API call for the search term.
+                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=P&featureCode=PPLA&featureCode=PPLC&username=weknowit') // Make an API call for the search term.
                   .then((response) => response.json())
-                  .then((json) => {
+                  .then((json) => { console.log(json)
                     if (json.geonames.length != 0) {
                       navigation.navigate("CityPage", {name: json.geonames[0].toponymName, pop:json.geonames[0].population});
                     }
@@ -110,7 +110,7 @@ const CountrySearchScreen: React.FC<{}> = () => {
             title="Search"
             onPress={() => {
               if (searchTerm != ""){
-                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&username=weknowit') // Make an API call for the search term.
+                fetch('http://api.geonames.org/searchJSON?name_equals=' + searchTerm + '&featureClass=A&featureCode=PCLI&username=weknowit') // Make an API call for the search term.
                   .then((response) => response.json())
                   .then((json) => {
                     if (json.geonames.length != 0) {
@@ -175,9 +175,8 @@ const CountryScreen: React.FC<CountryProps> = (props) => {
       <View style={styles.top_container}>
         {props.route.params.cities.map((item) => { // Every result gets its own button, navigating to its respective city
           return (
-            <View style={{margin: 10}}>
+            <View style={{margin: 10}} key={item.toponymName}>
               <Button
-                key={item.toponymName}
                 title={item.toponymName}
                 onPress={() => navigation.navigate("CityPage", {name: item.toponymName, pop:item.population})}
               />
