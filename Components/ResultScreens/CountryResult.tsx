@@ -16,7 +16,7 @@ export const CountryScreen: React.FC<CountryProps> = (props) => {
         <View style={styles.top_container}>
             {props.route.params.cities.map((item) => { // Every result gets its own button, navigating to its respective city
             return (
-                <View style={{margin: 10}} key={item.toponymName}>
+                <View style={{margin: 5}} key={item.toponymName}>
                 <Button
                     title={item.toponymName}
                     onPress={() => navigation.navigate("CityPage", {name: item.toponymName, pop:item.population})}

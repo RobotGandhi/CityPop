@@ -47,6 +47,7 @@ export const CountrySearchScreen: React.FC<{}> = () => {
             />
           </View>
         </View>
+        <View style={styles.container}></View>
       </View>
     );}
     else if (error != "") { return ( // If there is an error, show it to the user.
