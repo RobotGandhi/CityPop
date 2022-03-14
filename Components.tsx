@@ -76,14 +76,14 @@ const CitySearchScreen: React.FC<{}> = () => {
     <View style={styles.container}> 
       <Text>{error}</Text>
       <Button
-        title="Återvänd"
+        title="Return"
         onPress={() => setError("")}
       />
     </View>
   );}
   else return ( // If the API results are pending, show a loading screen.
     <View style={styles.container}> 
-      <Text>Laddar resultat...</Text>
+      <Text>Loading results...</Text>
     </View>
   );
 };
@@ -136,14 +136,14 @@ const CountrySearchScreen: React.FC<{}> = () => {
     <View style={styles.container}> 
       <Text>{error}</Text>
       <Button
-        title="Återvänd"
+        title="Return"
         onPress={() => setError("")}
       />
     </View>
   );}
   else return ( // If the API results are pending, show a loading screen.
     <View style={styles.container}> 
-      <Text>Laddar resultat...</Text>
+      <Text>Loading reults...</Text>
     </View>
   );
 };
@@ -170,7 +170,7 @@ const CountryScreen: React.FC<CountryProps> = (props) => {
   return ( // A simple screen showing the top city results for a country
     <View style={styles.container}>
       <View style={styles.container}>
-        <Text>Välkommen till landsskärmen för {props.route.params.name}</Text>
+        <Text>{props.route.params.name}</Text>
       </View>
       <View style={styles.top_container}>
         {props.route.params.cities.map((item) => { // Every result gets its own button, navigating to its respective city
